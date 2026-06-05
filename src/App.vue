@@ -3,6 +3,7 @@
     <router-link to="/">首页</router-link>
     <router-link to="/project">项目</router-link>
     <router-link to="/blog">博客</router-link>
+    <router-link to="/message">留言</router-link>
     <router-link to="/admin">后台管理</router-link>
   </nav>
   <router-view />

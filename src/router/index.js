@@ -1,12 +1,15 @@
-// 路由文件 100% 正确版
 import { createRouter, createWebHistory } from 'vue-router'
 
-// 前台
+// 前台页面
 import Blog from '../views/Blog.vue'
 import Home from '../views/Home.vue'
+import Message from '../views/Message.vue'
 import Project from '../views/Project.vue'
 
-// 后台
+// 登录页面（必须导入！）
+import Login from '../views/Login.vue'
+
+// 后台页面
 import BlogAdmin from '../views/admin/BlogAdmin.vue'
 import AdminIndex from '../views/admin/Index.vue'
 import MessageAdmin from '../views/admin/MessageAdmin.vue'
@@ -17,6 +20,8 @@ const routes = [
   { path: '/', component: Home },
   { path: '/project', component: Project },
   { path: '/blog', component: Blog },
+  { path: '/login', component: Login }, 
+  { path: '/message', component: Message },
 
   // 后台
   {
@@ -36,5 +41,14 @@ const router = createRouter({
   routes
 })
 
-// 必须写这个！！！
+// 路由守卫：未登录不能进后台
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token')
+  if (to.path.startsWith('/admin') && !token) {
+    next('/login')
+  } else {
+    next()
+  }
+})
+
 export default router
