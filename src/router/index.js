@@ -1,15 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-// 前台页面
+// 前台
 import Blog from '../views/Blog.vue'
 import Home from '../views/Home.vue'
+import Login from '../views/Login.vue'
 import Message from '../views/Message.vue'
 import Project from '../views/Project.vue'
+import UserSetting from '../views/UserSetting.vue'
 
-// 登录页面（必须导入！）
-import Login from '../views/Login.vue'
-
-// 后台页面
+// 后台
 import BlogAdmin from '../views/admin/BlogAdmin.vue'
 import AdminIndex from '../views/admin/Index.vue'
 import MessageAdmin from '../views/admin/MessageAdmin.vue'
@@ -20,10 +19,10 @@ const routes = [
   { path: '/', component: Home },
   { path: '/project', component: Project },
   { path: '/blog', component: Blog },
-  { path: '/login', component: Login }, 
   { path: '/message', component: Message },
+  { path: '/login', component: Login },
+  { path: '/user-setting', component: UserSetting },
 
-  // 后台
   {
     path: '/admin',
     component: AdminIndex,
@@ -41,10 +40,10 @@ const router = createRouter({
   routes
 })
 
-// 路由守卫：未登录不能进后台
+// 鉴权守卫
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
-  if (to.path.startsWith('/admin') && !token) {
+  if ((to.path.startsWith('/admin') || to.path === '/user-setting') && !token) {
     next('/login')
   } else {
     next()
